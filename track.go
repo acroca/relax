@@ -9,7 +9,7 @@ import (
 
 type Track struct {
 	SampleRate int
-	slider     *VolumeSlider
+	Slider     *VolumeSlider
 	data       []int16
 	curIdx     int
 	playing    bool
@@ -23,7 +23,7 @@ func TrackFromOGGData(raw []byte) *Track {
 
 	track := &Track{
 		data:       data,
-		slider:     NewVolumeSlider(),
+		Slider:     NewVolumeSlider(),
 		SampleRate: sr,
 		playing:    true,
 	}
@@ -55,7 +55,7 @@ func (track *Track) Stream(samples [][2]float64) (n int, ok bool) {
 			// loop
 			myIdx -= len(track.data)
 		}
-		val = track.slider.Val()
+		val = track.Slider.Val()
 		samples[i][0] = val * (float64(track.data[myIdx]) / float64(math.MaxInt16))
 		samples[i][1] = val * (float64(track.data[(myIdx)+1]) / float64(math.MaxInt16))
 	}

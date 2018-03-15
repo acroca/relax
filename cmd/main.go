@@ -57,9 +57,12 @@ func run() {
 	fmt.Println("Loading audio tracks...")
 	trackFiles := box.List()
 	tracks := make([]*relax.Track, len(trackFiles))
+	sliders := make(relax.VolumeSliders, len(trackFiles))
 	for i, trackFile := range trackFiles {
 		tracks[i] = relax.TrackFromOGGData(box.Bytes(trackFile))
+		sliders[i] = tracks[i].Slider
 	}
+	go sliders.Start()
 	sampleRate := beep.SampleRate(tracks[0].SampleRate)
 	speaker.Init(sampleRate, sampleRate.N(time.Second/10))
 
